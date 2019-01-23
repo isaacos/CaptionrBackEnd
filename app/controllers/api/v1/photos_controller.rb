@@ -6,7 +6,12 @@ class Api::V1::PhotosController < ApplicationController
 
   def create
     @photo = Photo.create(photo_params)
-    render json: @photo, :include => :comments
+    if @photo.valid?
+      render json: @photo, :include => :comments
+    else
+      @error = {error: true, message: "Invalid photo"}
+      render json: @error
+    end
   end
 
 
@@ -14,6 +19,6 @@ class Api::V1::PhotosController < ApplicationController
   private
 
   def photo_params
-    params.permit(:name, :url)
+    params.permit(:name, :url, :user_id)
   end
 end
