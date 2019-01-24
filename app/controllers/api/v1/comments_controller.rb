@@ -8,6 +8,6 @@ class Api::V1::CommentsController < ApplicationController
   private
 
   def comment_params
-    params.permit(:body, :photo_id)
+    params.require(:comment).permit(:body, :photo_id, :user_id)
   end
 end

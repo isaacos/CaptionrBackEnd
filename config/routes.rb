@@ -4,6 +4,8 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :photos, only: [:index, :create]
       resources :comments, only: [:create]
+      resources :votes, only: [:create, :update]
+      post '/vote', to: 'votes#vote'
       post '/register', to: 'users#create'
       post '/login', to: 'users#login'
     end
