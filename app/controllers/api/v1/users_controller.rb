@@ -2,11 +2,15 @@ class Api::V1::UsersController < ApplicationController
 
   def create
     @user = User.create(user_params)
-    render json: @user
+    if @user.valid?
+      render json: @user
+    else
+      render json: @user.errors.messages
+    end
   end
 
   def login
-    @user=User.find_by(username: params[:username])
+    @user=User.where("lower(username) = ?", params[:username].downcase).first
     render json: @user
   end
 
